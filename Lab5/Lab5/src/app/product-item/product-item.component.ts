@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { products } from '../products';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Product } from '../products';
 
 @Component({
   selector: 'app-product-item',
@@ -7,15 +7,29 @@ import { products } from '../products';
   styleUrl: './product-item.component.css'
 })
 export class ProductItemComponent {
-  // products = [...products];
+  @Input() product!: Product
+  @Output() deleteIntent = new EventEmitter<number>()
+  @Output() manageLikeIntent = new EventEmitter<number>()
 
-  // share(name: string, link: string) {
-  //   window.alert('You will be redirected to Telegram!');
-  //   window.open(`https://telegram.me/share/url?url=https://t.me/Kjell4 ${link}`);
-  // }
 
-  // onNotify() {
-  //   window.alert('You will be notified when the product goes on sale');
-  // }
+  share(link: string) {
+    const shareMessage = `Я делюсь с тобой ссылкой на крутой продукт:  ${link}`;
+    const telegramLink = `https://t.me/share/url?url=${encodeURIComponent(shareMessage)}`;
+    window.location.href = telegramLink;
+  }
 
+  delete(id: number){
+    this.deleteIntent.emit(id)
+  }
+
+  manageLike(id: number){
+    this.manageLikeIntent.emit(id)
+  }
+  onNotify() {
+    window.alert('You will be notified when the product goes on sale');
+  }
+
+  getStars(rating: number): string {
+    return '★'.repeat(Math.floor(rating)) + '☆'.repeat(5 - Math.floor(rating));
+  }
 }

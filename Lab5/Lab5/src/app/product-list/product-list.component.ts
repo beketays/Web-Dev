@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { CategoryComponent } from '../category/category.component';
-import { products } from '../products';
 
+import { products as initProducts} from '../products';
+import { Product } from '../products';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-product-list',
@@ -9,24 +10,29 @@ import { products } from '../products';
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent {
+  products: Product[] = [];
 
-  products = [...products];
+  constructor(private route: ActivatedRoute) { }
 
-  share(name: string, link: string) {
-    window.alert('You will be redirected to Telegram!');
-    window.open(`https://telegram.me/share/url?url=https://t.me/Kjell4 ${link}`);
+  ngOnInit(){
+    const routeParams = this.route.snapshot.paramMap;
+    const categoryIdFromRoute = Number(routeParams.get('categoryId'));
+    this.products = initProducts.filter( product => product.category_id === categoryIdFromRoute)
   }
 
-  onNotify() {
-    window.alert('You will be notified when the product goes on sale');
+
+  onDelete(id: number){
+    this.products = this.products.filter(product => product.id !== id)
   }
 
-  checker = CategoryComponent.categorySelected
-
-  deleteProduct(productIndex: number) {
-    this.products.splice(productIndex, 1);
+  onLikePress(id: number){
+    var product = this.products.find(product => product.id === id)
+    if (product == undefined){
+      alert("Something when wrong")
+    }else{
+      product.likeCount = (product?.likeCount ?? 0) + 1
+    }
   }
-
 }
 
 
