@@ -1,20 +1,15 @@
 .vacancy {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    width: 960px;
     margin: 0 auto;
+  }
+  
+  .vacancy__info {
     padding: 20px;
-    width: 100%;
-    max-width: 1200px;
-}
-.vacancy__info {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto;
-    padding: 20px;
-    width: 100%;
-    max-width: 1200px;
-}
+    width: 600px;
+    border: 5px solid #5c92ff;
+    border-radius: 20px;
+    box-shadow: gray 5px 5px 10px 1px;
+    margin: 20px auto;
+  }
+
